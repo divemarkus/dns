@@ -33,7 +33,7 @@ DoH - Preferred for maximum user privacy and bypassing network filtering/censors
 
 
 ### Third-party recursive public DNS
-These are the entity that will provide you with free recursive DNS service. The likes of Google, Cloudflare, Cisco, and of course your ISP
+These are the entity that will provide you with free recursive DNS service. The likes of Google, Cloudflare, Cisco, and of course your ISP. It is always advisable not to use your ISP's DNS, as they already have access to you network. Also, in my experience ISP's DNS are not as good as the ones I listed above. As of today's date, there's limited number of ISP's providing encrypted DNS service.
 
 Cisco acquired OpenDNS, but still provides free home account. [Sign-up here](https://www.opendns.com/)
 - With free account you have access what you block: country code domain ending with 'xx' or the likes (xx is any country of your choice)
@@ -41,12 +41,12 @@ Cisco acquired OpenDNS, but still provides free home account. [Sign-up here](htt
 
 ### Public recursive DNS hosts
 Here are the corresponding hosts and its DoT/DoH equivalents:
-- Cisco: "208.67.222.222"; DoTHost = "dns.umbrella.com"
-- Cisco: "208.67.220.220"; DoTHost = "dns.umbrella.com"
-- Google: "8.8.8.8"; DoTHost = "dns.google"
-- Google: "8.8.4.4"; DoTHost = "dns.google"
-- Cloudflare: "1.1.1.1"; DoTHost = "one.one.one.one"
-- 
+- Cisco: "208.67.222.222"; DoTHost = "dns.umbrella.com"; DoHHost = "https://dns.umbrella.com/dns-query"
+- Cisco: "208.67.220.220"; DoTHost = "dns.umbrella.com"; DoHHost = "https://dns.umbrella.com/dns-query"
+- Google: "8.8.8.8"; DoTHost = "dns.google"; DoHHost = "https://dns.google/dns-query"
+- Google: "8.8.4.4"; DoTHost = "dns.google"; DoHHost = "https://dns.google/dns-query"
+- Cloudflare: "1.1.1.1"; DoTHost = "one.one.one.one"; DoHHost = "https://cloudflare-dns.com/dns-query"
+- Quad9: "9.9.9.9"; DoTHost = "dns.quad9.net"; DoHHost = "https://dns.quad9.net/dns-query"
 
 ### About...
 [Check it out...](https://github,com/divemarkus/)
