@@ -35,9 +35,9 @@ DoH - Preferred for maximum user privacy and bypassing network filtering/censors
 ### Third-party recursive public DNS
 These are the entity that will provide you with free recursive DNS service. The likes of Google, Cloudflare, Cisco, and of course your ISP. It is always advisable not to use your ISP's DNS, as they already have access to you network. Also, in my experience ISP's DNS are not as good as the ones I listed above. As of today's date, there's limited number of ISP's providing encrypted DNS service.
 
-Cisco acquired OpenDNS, but still provides free home account. [Sign-up here](https://www.opendns.com/)
+Cisco acquired OpenDNS, but still provides free home account. [Sign-up here](https://www.opendns.com/) - [or here](https://www.opendns.com/home-internet-security/)
 - With free account you have access what you block: country code domain ending with 'xx' or the likes (xx is any country of your choice)
-- Downside if you don't have static IP, you'll need to continously update your home IP using an App
+- Domain blocking and other features
 
 ### Public recursive DNS hosts
 Here are the corresponding hosts and its DoT/DoH equivalents:
@@ -49,6 +49,6 @@ Here are the corresponding hosts and its DoT/DoH equivalents:
 - Quad9: "9.9.9.9"; DoTHost = "dns.quad9.net"; DoHHost = "https://dns.quad9.net/dns-query"
 
 ### About...
-[Check it out...](https://github,com/divemarkus/)
+[Check it out...](https://en.wikipedia.org/wiki/DNS_over_TLS/)
 
 
