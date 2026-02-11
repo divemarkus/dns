@@ -99,19 +99,19 @@ Client receives DNS response
 - If you require failback, you must use two pi-hole or enterprise-grade firewall
 - DO NOT DO THIS: primary dns "pi-hole", secondary dns "google" = nope!
 
-### Design with failback - Self-hosted + Fortigate or any enterprise grade Firewall
-- Comparison with local FW vs third-party recursive DNS servers -- FortiGate or local Firewall is inside your LAN — OpenDNS is outside
-- FortiGate secondary DNS path:
+### Design with failback - Self-hosted + any enterprise grade Firewall (FW)
+- Comparison with local FW vs third-party recursive DNS servers -- FW is inside your LAN — OpenDNS or Google is outside
+- FW secondary DNS path:
 ```
-Client → Pi-hole → (if Pi-hole down) → FortiGate → Upstream DNS
+Client → Pi-hole → (if Pi-hole down) → FW → Upstream DNS
 ```
-- FortiGate or Enterprise FW configured to use OpenDNS & other provider as upstream
-- Local FW will only answer if pi-hole is unresponsive
+- FW configured to use OpenDNS & other provider as upstream
+- FW will only answer if pi-hole is unresponsive
 - Using pi-hole + OpenDNS (Google, ISP, Cloudflare, etc):
 ```
 Client → Pi-hole → (blocked) → OpenDNS → Bypass
 ```
-- Local Firewall enforces firewall rules — OpenDNS, Cisco and the likes cannot
+- Local Firewall enforces firewall rules — OpenDNS, Google, ISP and the likes cannot
 
 ### About...
 [Check it out...](https://en.wikipedia.org/wiki/DNS_over_TLS/)
