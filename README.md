@@ -114,6 +114,7 @@ Client → Pi-hole → (blocked) → OpenDNS → Bypass
 - Local Firewall enforces firewall rules — OpenDNS, Google, ISP and the likes cannot
 
 ### About...
-[Check it out...](https://en.wikipedia.org/wiki/DNS_over_TLS/)
+[Check it out...](https://pi-hole.net/)
+
 
 
