@@ -59,6 +59,7 @@ Use Pi‑hole as your primary DNS if you want:
 - Homelab flexibility
 
 ### Diagram - Pi-hole Full Recursive Lookup
+```
 Client Device
     │
     ▼
@@ -81,9 +82,11 @@ Pi-hole caches it
     │
     ▼
 Client receives DNS response
+```
 
 ### Key Characteristics - Self-hosted
 - No third-party DNS sees your queries
+- From your local network, you query straight to root servers, not Cisco, Google, or worst your ISP
 - No logging outside your LAN
 - Local caching = very fast repeat lookups
 - Full control over filtering
@@ -94,6 +97,7 @@ Client receives DNS response
 ### Disadvantage - Self-hosted
 - DHCP handout for DNS is only the pi-hole server
 - If you require failback, you must use two pi-hole or enterprise-grade firewall
+- DO NOT DO THIS: primary dns "pi-hole", secondary dns "google" = nope!
 
 ### About...
 [Check it out...](https://en.wikipedia.org/wiki/DNS_over_TLS/)
