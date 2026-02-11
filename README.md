@@ -48,6 +48,12 @@ Here are the corresponding hosts and its DoT/DoH equivalents:
 - Cloudflare: "1.1.1.1"; DoTHost = "one.one.one.one"; DoHHost = "https://cloudflare-dns.com/dns-query"
 - Quad9: "9.9.9.9"; DoTHost = "dns.quad9.net"; DoHHost = "https://dns.quad9.net/dns-query"
 
+### Public recursive DNS, Client setup
+Google only provides basic filters and tons of tracking. If you want the openDNS feature sets, do the following:
+- Primary DNS handout: 208.67.222.222
+- Secondary DNS handout: 208.67.220.220
+- Tertiary DNS handout: (do not add different hosts, if using openDNS features)
+
 ### Alternative - Self-hosted
 Use Pi‑hole as your primary DNS if you want:
 - Privacy
@@ -112,6 +118,12 @@ Client → Pi-hole → (if Pi-hole down) → FW → Upstream DNS
 Client → Pi-hole → (blocked) → OpenDNS → Bypass
 ```
 - Local Firewall enforces firewall rules — OpenDNS, Google, ISP and the likes cannot
+
+### Additional Notes
+- Use unbound with pi-hole as one container
+- Give pi-hole container its own IP
+- Set your firewall as secondary recursive DNS (failback)
+- All clients should only have two DNS handouts: pi-hole & firewall
 
 ### About...
 [Check it out...](https://pi-hole.net/)
