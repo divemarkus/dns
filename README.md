@@ -124,6 +124,9 @@ Client → Pi-hole → (blocked) → OpenDNS → Bypass
 - Give pi-hole container its own IP
 - Set your firewall as secondary recursive DNS (failback)
 - All clients should only have two DNS handouts: pi-hole & firewall
+- All IoT's have very strict DNS settings
+- Monitor pi-hole logs and make adjustments
+- Firewall DNS upstream can be OpenDNS
 
 ### About...
 [Check it out...](https://pi-hole.net/)
