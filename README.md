@@ -48,6 +48,53 @@ Here are the corresponding hosts and its DoT/DoH equivalents:
 - Cloudflare: "1.1.1.1"; DoTHost = "one.one.one.one"; DoHHost = "https://cloudflare-dns.com/dns-query"
 - Quad9: "9.9.9.9"; DoTHost = "dns.quad9.net"; DoHHost = "https://dns.quad9.net/dns-query"
 
+### Alternative - Self-hosted
+Use Pi‑hole as your primary DNS if you want:
+- Privacy
+- Control
+- Ad blocking
+- Local overrides
+- LAN‑first resolution
+- IoT lockdown
+- Homelab flexibility
+
+### Diagram - Pi-hole Full Recursive Lookup
+Client Device
+    │
+    ▼
+Pi-hole (DNS filter, blocklists, local cache)
+    │
+    ▼
+Unbound (local recursive resolver)
+    │
+    ├── Query Root Servers (.)
+    │
+    ├── Query TLD Servers (.com, .net, etc.)
+    │
+    ├── Query Authoritative Server (example.com)
+    │
+    ▼
+Receives Final Answer
+    │
+    ▼
+Pi-hole caches it
+    │
+    ▼
+Client receives DNS response
+
+### Key Characteristics - Self-hosted
+- No third-party DNS sees your queries
+- No logging outside your LAN
+- Local caching = very fast repeat lookups
+- Full control over filtering
+- LAN hostnames resolved locally
+- Cannot be bypassed if DoT/DoH is blocked
+- This is the most private and most deterministic DNS architecture
+
+### Disadvantage - Self-hosted
+- DHCP handout for DNS is only the pi-hole server
+- If you require failback, you must use two pi-hole or enterprise-grade firewall
+
 ### About...
 [Check it out...](https://en.wikipedia.org/wiki/DNS_over_TLS/)
 
