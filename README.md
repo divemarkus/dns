@@ -101,19 +101,18 @@ Client receives DNS response
 - This is the most private and most deterministic DNS architecture
 
 ### Disadvantage - Self-hosted
-- DHCP handout for DNS is only the pi-hole server
 - If you require failback, you must use two pi-hole or enterprise-grade firewall
 - DO NOT DO THIS: primary dns "pi-hole", secondary dns "google" = nope!
 
 ### Design with failback - Self-hosted + any enterprise grade Firewall (FW)
 - Comparison with local FW vs third-party recursive DNS servers -- FW is inside your LAN — OpenDNS or Google is outside
-- FW secondary DNS path:
+- Path using FW as secondary DNS (below):
 ```
 Client → Pi-hole → (if Pi-hole down) → FW → Upstream DNS
 ```
-- FW configured to use OpenDNS & other provider as upstream
+- FW configured to use OpenDNS as upstream or its own full resursive like 'unbound'
 - FW will only answer if pi-hole is unresponsive
-- Using pi-hole + OpenDNS (Google, ISP, Cloudflare, etc):
+- Path using pi-hole + OpenDNS or Google or ISP or Cloudflare (below):
 ```
 Client → Pi-hole → (blocked) → OpenDNS → Bypass
 ```
@@ -129,7 +128,7 @@ Client → Pi-hole → (blocked) → OpenDNS → Bypass
 - Firewall DNS upstream can be OpenDNS
 
 ### About...
-[Check it out...](https://pi-hole.net/)
-
+- [Check it out...](https://pi-hole.net/)
+- [or here](https://www.opendns.com/home-internet-security/)
 
 
