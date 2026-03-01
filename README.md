@@ -134,7 +134,7 @@ Client → Pi-hole → (blocked) → OpenDNS → Bypass
 ## Resources & Documentation
 
 - **Pi-hole Official Docs**: [https://pi-hole.net/documentation/](https://pi-hole.net/documentation/)
-- **OpenDNS Setup Guide**: [https://www.opendns.com/setup-guide/](https://www.opendns.com/setup-guide/)
+- **OpenDNS Consumer**: [https://www.opendns.com/home-internet-security/](https://www.opendns.com/home-internet-security/)
 - **Unbound DNS Documentation**: [https://unbounddns.github.io/unbound/](https://unbounddns.github.io/unbound/)
 
 ## Conclusion
