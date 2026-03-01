@@ -129,7 +129,7 @@ Client → Pi-hole → (blocked) → OpenDNS → Bypass
 - **Updates**: Keep Pi-hole and related software updated to benefit from the latest features and security patches.
 
 ### IoT Devices
-- Ensure all IoT devices use secure DNS settings by configuring them through your router or device management interface.
+- You can lock-down some of your IoT's if they only require very specific DNS queries
 
 ## Resources & Documentation
 
