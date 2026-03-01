@@ -1,70 +1,72 @@
-# DNS
-DNS or Domain Name System is the system that automatically translates human-readable domain names (the name) into machine-readable IP addresses (the phone number) so your browser knows which server to connect to.
 
+# DNS Configuration Guide
 
-#### DNS over TLS (DoT) is a security protocol that addresses the privacy flaw of traditional DNS by adding encryption at the transport layer
+## Table of Contents
+1. [Introduction](#introduction)
+2. [DNS Over TLS (DoT) & DNS Over HTTPS (DoH)](#dns-over-tls-dot--dns-over-https-doh)
+3. [Third-Party Recursive Public DNS Services](#third-party-recursive-public-dns-services)
+4. [Self-Hosted DNS with Pi-hole](#self-hosted-dns-with-pi-hole)
+5. [Failback Design](#failback-design)
+6. [Additional Considerations](#additional-considerations)
+7. [Resources & Documentation](#resources--documentation)
 
-#### DNS over HTTPS (DoH) is another security protocol that also encrypts DNS queries, but it does so by wrapping them inside a standard HTTPS web request
+## Introduction
 
+The Domain Name System (DNS) is a critical component of the internet, translating human-readable domain names into machine-readable IP addresses. This guide provides detailed instructions on setting up DNS for enhanced privacy and security.
 
-### Key differences
+## DNS Over TLS (DoT) & DNS Over HTTPS (DoH)
 
-```
-# Transport Protocol
-DoT - DNS encapsulated directly in TLS
-DoH - DNS encapsulated in HTTPS
+### Overview
+- **DNS over TLS (DoT)**: Encrypts DNS queries using TLS, providing privacy at the transport layer.
+  - Uses port 853.
+  - Traffic is visible but encrypted.
+  - Easier to block by port.
 
-# Port Used
-DoT - 853
-DoH - 443
+- **DNS over HTTPS (DoH)**: Encapsulates DNS queries within HTTPS requests.
+  - Shares the same port as web traffic (port 443).
+  - Hides DNS traffic within regular HTTPS traffic.
+  - Harder to block without restricting all web traffic.
 
-# Network Visibility
-DoT - DNS traffic is visible (as port 853 is used), but the content is encrypted
-DoH - DNS traffic is hidden within regular HTTPS traffic
+### Use Cases
+- **DoT**: Ideal for networks requiring monitoring while maintaining user privacy.
+- **DoH**: Preferred for maximum privacy and circumventing censorship.
 
-# Ease of Blocking
-DoT - Just block port 853
-DoH - Difficult to block without blocking all web traffic
+## Third-Party Recursive Public DNS Services
 
-# Use case
-DoT - Preferred for network-level control and monitoring while maintaining user privacy
-DoH - Preferred for maximum user privacy and bypassing network filtering/censorship
-```
+### Recommended Providers
+1. **Google DNS**
+   - Primary: `8.8.8.8`
+   - Secondary: `8.8.4.4`
 
+2. **Cloudflare DNS**
+   - Primary: `1.1.1.1`
+   - Secondary: `1.0.0.1`
 
-### Third-party recursive public DNS
-These are the entity that will provide you with free recursive DNS service. The likes of Google, Cloudflare, Cisco, and of course your ISP. It is always advisable not to use your ISP's DNS, as they already have access to you network. Also, in my experience ISP's DNS are not as good as the ones I listed above. As of today's date, there's limited number of ISP's providing encrypted DNS service.
+3. **OpenDNS (Cisco)**
+   - Primary: `208.67.222.222`
+   - Secondary: `208.67.220.220`
 
-Cisco acquired OpenDNS, but still provides free home account. [Sign-up here](https://www.opendns.com/) - [or here](https://www.opendns.com/home-internet-security/)
-- With free account you have access what you block: country code domain ending with 'xx' or the likes (xx is any country of your choice)
-- Domain blocking and other features
+4. **Quad9**
+   - Primary: `9.9.9.9`
 
-### Public recursive DNS hosts
-Here are the corresponding hosts and its DoT/DoH equivalents:
-- Cisco: "208.67.222.222"; DoTHost = "dns.umbrella.com"; DoHHost = "https://dns.umbrella.com/dns-query"
-- Cisco: "208.67.220.220"; DoTHost = "dns.umbrella.com"; DoHHost = "https://dns.umbrella.com/dns-query"
-- Google: "8.8.8.8"; DoTHost = "dns.google"; DoHHost = "https://dns.google/dns-query"
-- Google: "8.8.4.4"; DoTHost = "dns.google"; DoHHost = "https://dns.google/dns-query"
-- Cloudflare: "1.1.1.1"; DoTHost = "one.one.one.one"; DoHHost = "https://cloudflare-dns.com/dns-query"
-- Quad9: "9.9.9.9"; DoTHost = "dns.quad9.net"; DoHHost = "https://dns.quad9.net/dns-query"
+### DoT and DoH Hostnames
+| Provider       | DoT Host                     | DoH Host                           |
+|----------------|------------------------------|------------------------------------|
+| Google         | `dns.google`                 | `https://dns.google/dns-query`    |
+| Cloudflare     | `one.one.one.one`            | `https://cloudflare-dns.com/dns-query` |
+| OpenDNS (Cisco)| `dns.quad9.net`              | `https://dns.quad9.net/dns-query`  |
+| Quad9          | `dns.quad9.net`              | `https://dns.quad9.net/dns-query`  |
 
-### Public recursive DNS, Client setup
-Google only provides basic filters and tons of tracking. If you want the openDNS feature sets, do the following:
-- Primary DNS handout: 208.67.222.222
-- Secondary DNS handout: 208.67.220.220
-- Tertiary DNS handout: (do not add different hosts, if using openDNS features)
+## Self-Hosted DNS with Pi-hole
 
-### Alternative - Self-hosted
-Use Pi‑hole as your primary DNS if you want:
-- Privacy
-- Control
-- Ad blocking
-- Local overrides
-- LAN‑first resolution
-- IoT lockdown
-- Homelab flexibility
+### Benefits
+- **Privacy**: No third-party DNS sees your queries.
+- **Control**: Full control over filtering and caching.
+- **Ad Blocking**: Blocks ads and trackers.
+- **Local Cache**: Fast repeat lookups.
+- **IoT Lockdown**: Define and group client.
 
-### Diagram - Pi-hole Full Recursive Lookup
+### Diagram - Pi-hole with Unbound Full Recursive Lookup
 ```
 Client Device
     │
@@ -104,6 +106,8 @@ Client receives DNS response
 - If you require failback, you must use two pi-hole or enterprise-grade firewall
 - DO NOT DO THIS: primary dns "pi-hole", secondary dns "google" = nope!
 
+## Failback Design
+
 ### Design with failback - Self-hosted + any enterprise grade Firewall (FW)
 - Comparison with local FW vs third-party recursive DNS servers -- FW is inside your LAN — OpenDNS or Google is outside
 - Path using FW as secondary DNS (below):
@@ -118,17 +122,22 @@ Client → Pi-hole → (blocked) → OpenDNS → Bypass
 ```
 - Local Firewall enforces firewall rules — OpenDNS, Google, ISP and the likes cannot
 
-### Additional Notes
-- Use unbound with pi-hole as one container
-- Give pi-hole container its own IP
-- Set your firewall as secondary recursive DNS (failback)
-- All clients should only have two DNS handouts: pi-hole & firewall
-- All IoT's have very strict DNS settings
-- Monitor pi-hole logs and make adjustments
-- Firewall DNS upstream can be OpenDNS
+## Additional Considerations
 
-### About...
-- [Check it out...](https://pi-hole.net/)
-- [or here](https://www.opendns.com/home-internet-security/)
+### Monitoring & Maintenance
+- **Logs**: Monitor Pi-hole logs for unusual activity to ensure network security.
+- **Updates**: Keep Pi-hole and related software updated to benefit from the latest features and security patches.
 
+### IoT Devices
+- Ensure all IoT devices use secure DNS settings by configuring them through your router or device management interface.
+
+## Resources & Documentation
+
+- **Pi-hole Official Docs**: [https://pi-hole.net/documentation/](https://pi-hole.net/documentation/)
+- **OpenDNS Setup Guide**: [https://www.opendns.com/setup-guide/](https://www.opendns.com/setup-guide/)
+- **Unbound DNS Documentation**: [https://unbounddns.github.io/unbound/](https://unbounddns.github.io/unbound/)
+
+## Conclusion
+
+Setting up a secure and private DNS infrastructure enhances your network's security and privacy. Whether you choose third-party services like Google or Cloudflare, or opt for self-hosted solutions like Pi-hole, the guide above provides comprehensive instructions to get you started.
 
