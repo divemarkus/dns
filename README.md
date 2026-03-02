@@ -54,7 +54,7 @@ The Domain Name System (DNS) is a critical component of the internet, translatin
 |----------------|------------------------------|------------------------------------|
 | Google         | `dns.google`                 | `https://dns.google/dns-query`    |
 | Cloudflare     | `one.one.one.one`            | `https://cloudflare-dns.com/dns-query` |
-| OpenDNS (Cisco)| `dns.quad9.net`              | `https://dns.quad9.net/dns-query`  |
+| OpenDNS (Cisco)| `dns.opendns.com`            | `https://doh.opendns.com/dns-query`  |
 | Quad9          | `dns.quad9.net`              | `https://dns.quad9.net/dns-query`  |
 
 ## Self-Hosted DNS with Pi-hole
