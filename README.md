@@ -104,7 +104,7 @@ Client receives DNS response
 
 ### Disadvantage - Self-hosted
 - If you require failback, you must use two pi-hole or enterprise-grade firewall
-- DO NOT DO THIS: primary dns "pi-hole", secondary dns "google" = nope!
+- DO NOT DO THIS: primary dns "pi-hole", secondary dns "google" = makes pi-hole ineffective 
 
 ## Failback Design
 
@@ -133,7 +133,7 @@ Client → Pi-hole → (blocked) → OpenDNS → Bypass
 
 ## Resources & Documentation
 
-- **Pi-hole Official Docs**: [https://pi-hole.net/documentation/](https://pi-hole.net/documentation/)
+- **Pi-hole Official Docs**: [Documentation Link](https://docs.pi-hole.net/)
 - **OpenDNS Consumer**: [https://www.opendns.com/home-internet-security/](https://www.opendns.com/home-internet-security/)
 - **Unbound DNS Documentation**: [https://github.com/NLnetLabs/unbound](https://github.com/NLnetLabs/unbound)
 
