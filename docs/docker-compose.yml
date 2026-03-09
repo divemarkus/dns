@@ -1,0 +1,35 @@
+# pi-hole/docker-compose.yml
+version: '3.8'
+
+services:
+  pihole:
+    container_name: pihole23
+    image: pihole/pihole:v6.0@sha256:a1b9d9e4... # optional pin to latest stable digest (check Docker Hub)
+    hostname: pihole23
+
+    # Connect to ipvlan l3s network with static IP
+    networks:
+      pi-hole-l3s:
+        ipv4_address: 192.168.10.50
+
+    environment:
+      TZ: America/Los_Angeles  # adjust your zone!
+      WEBPASSWORD: 'SuperSecurePiHole!'  # CHANGE THIS!
+      FTLCONF_UPSTREAM_DNS: "1.1.1.1 8.8.8.8"
+      DNSMASQ_LISTENING: "all"  # ensures it listens on all interfaces
+
+    volumes:
+      - './etc-pihole:/etc/pihole'
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+
+    ports:
+      # Only needed for web UI + DNS from host
+      - "53:53/tcp"   # TCP DNS (FTL uses it)
+      - "53:53/udp"   # UDP DNS (queries)
+      - "80:80/tcp"   # Web UI
+
+    restart: unless-stopped
+
+networks:
+  pi-hole-l3s:
+    external: true
