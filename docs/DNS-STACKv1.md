@@ -228,9 +228,9 @@ systemd-resolve --status | grep "DNS Servers" -A2
 
 | Symptom | Diagnosis & Fix |
 |---------|-----------------|
-| ❌ Host can’t reach Pi-hole at `.50` | 1. Confirm `ip route` has a direct route to `.50/32`<br>2. Check: `sudo ip link show dev enp3s0` — ensure interface is UP<br>3. Temporarily disable firewall: `sudo ufw disable`, test again |
+| ❌ Host can’t reach Pi-hole at `.2` | 1. Confirm `ip route` has a direct route to `.2/32`<br>2. Check: `sudo ip link show dev enp3s0` — ensure interface is UP<br>3. Temporarily disable firewall: `sudo ufw disable`, test again |
 | ⚠️ Container starts but FTL fails | Increase `FTLCONF_MAX_LOG_SIZE=10` in env vars (common OOM issue)<br>Add to compose: `MEMLOCK: "no"` (if kernel enforces) |
-| 📡 DNS queries not reaching Pi-hole from LAN clients | 1. Ensure router’s DHCP option #6 = `.50`<br>2. Run on client: `tcpdump -i eth0 port 53 and host pihole_ip` to see if queries arrive |
+| 📡 DNS queries not reaching Pi-hole from LAN clients | 1. Ensure router’s DHCP option #6 = `.2`<br>2. Run on client: `tcpdump -i eth0 port 53 and host pihole_ip` to see if queries arrive |
 
 ---
 
