@@ -96,7 +96,7 @@ services:
       - NET_ADMIN
     networks:
       br0:
-        ipv4_address: 192.168.0.2
+        ipv4_address: 192.168.10.2
 
     ports:
       - "80:80/tcp"
@@ -135,7 +135,7 @@ services:
       - "63880:80/tcp"
 
     environment:
-      ServerIP: 192.168.0.13
+      ServerIP: 192.168.10.13
       DNS1: 8.8.8.8
       DNS2: 8.8.4.4
       IPv6: "False"
@@ -164,7 +164,7 @@ networks:
 > ✅ **Critical additions**:
 > - `ports:` — since host can reach `.50`, we *still* bind ports to `0.0.0.0` (not localhost) for host access  
 > - `DNSMASQ_LISTENING: "all"` — ensures it binds on the interface IP
-> - `UPSTREAM_DNS: remove any reference to public free DNS resolvers like google and cloudflare
+> - `UPSTREAM_DNS: remove any reference to public free DNS resolvers like 8.8.8.8/8.8.4.4 above once things are working
 
 ---
 
@@ -175,17 +175,17 @@ cd pi-hole
 docker-compose up -d
 
 # Check container is UP and reachable FROM HOST
-curl http://192.168.10.50/admin
+curl http://192.168.10.2/admin
 # Should return Pi-hole web UI HTML
 
-dig @192.168.10.50 google.com +short
+dig @192.168.10.2 google.com +short
 ```
 
 ✅ Now verify **host ↔ Pi-hole** works:
 ```bash
 # From host terminal:
-ping 192.168.10.50   # Should succeed!
-telnet 192.168.10.50 80  # Should open HTTP connection
+ping 192.168.10.2   # Should succeed!
+telnet 192.168.10.2 80  # Should open HTTP connection
 ```
 
 > 💡 This is the *key advantage* over macvlan: **no extra routing**, no `iptables` hacks.
@@ -198,8 +198,8 @@ Same as before — but now放心 your router won’t get confused:
 
 | Device | Action |
 |--------|--------|
-| **Router DHCP** | Set DNS server = `192.168.10.50` |
-| **Ubuntu host (you)** | Set primary DNS = `192.168.10.50` in Netplan/Wi-Fi settings |
+| **Router DHCP** | Set DNS server = `192.168.10.2` |
+| **Ubuntu host (you)** | Set primary DNS = `192.168.10.2` in Netplan/Wi-Fi settings |
 
 #### Example: Ubuntu host DNS config (`/etc/netplan/01-netcfg.yaml`)
 ```yaml
@@ -209,7 +209,7 @@ network:
     enp3s0:
       dhcp4: true
       nameservers:
-        addresses: [192.168.10.50, 1.1.1.1]  # ← Pi-hole FIRST!
+        addresses: [192.168.10.2, 192.168.10.1]  # ← Pi-hole FIRST!
 ```
 Then apply:  
 ```bash
@@ -219,7 +219,7 @@ sudo netplan apply && sudo systemctl restart systemd-resolved
 Test host DNS resolution:
 ```bash
 systemd-resolve --status | grep "DNS Servers" -A2
-# Should show: 192.168.10.50
+# Should show: 192.168.10.2
 ```
 
 ---
@@ -247,18 +247,5 @@ healthcheck:
 
 ---
 
-You now have a **stable, host-aware Pi-hole** that won’t break when your switch misbehaves or kernel updates. We’ll add the dashboard UI in the next iteration — but this foundation ensures reliability from day one.
-
-Let me know if you want:
-- IPv6 support added (trivial with ipvlan)
-- DNS-over-TLS (DoT) config via Pi-hole
-- A script to auto-detect your network interface/subnet
-
-I’ll tailor the config! 🛠️
-
-- Add **Unbound root hints** update script  
-- Enable **DNS-over-TLS (DoT)** in Unbound (requires extra config in `/etc/unbound/conf.d/`)  
-- Block lists via `adlists.list` volume mount  
-
-Happy blocking & resolving! 🌐🔒
+### Happy blocking & resolving! 🌐🔒
 
